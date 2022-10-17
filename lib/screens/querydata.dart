@@ -19,19 +19,19 @@ import "package:http/http.dart" as http;
 
 enum SelectedScreen { temperature, soil, waterTank, lighting }
 
-class DataScreen extends StatefulWidget {
+class QueryData extends StatefulWidget {
   @override
-  State<DataScreen> createState() => _DataScreenState();
+  State<QueryData> createState() => _QueryDataState();
 }
 
-class _DataScreenState extends State<DataScreen> {
+class _QueryDataState extends State<QueryData> {
   StreamController<ListOfData> _streamController = StreamController();
   List<IoTData> datastreams = [];
   SelectedScreen selectedScreen = SelectedScreen.temperature;
   String lastUpdateTime = "";
   String lastUpdatedate = "";
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
-  DateTime? _selectedDay;
+  DateTime? _selectedDay = DateTime.now();
 
   void setDate() {
     IoTData lastItem = datastreams.first;
@@ -60,6 +60,7 @@ class _DataScreenState extends State<DataScreen> {
       }
       setState(() {
         _selectedDay = pickedDate;
+        getData();
       });
     });
   }
@@ -74,9 +75,8 @@ class _DataScreenState extends State<DataScreen> {
   }
 
   Future<void> getData() async {
-    final url = Uri.parse("http://192.168.43.87:8000/api/listdata");
-    // final queryUrl = Uri.parse(
-    //     "http://127.0.0.1:8000/api/querydata/${formatter.format(_selectedDay!)}");
+    final url = Uri.parse(
+        "http://192.168.43.87:8000/api/querydata/${formatter.format(_selectedDay!)}");
 
     final response = await http.get(url);
 
@@ -85,6 +85,7 @@ class _DataScreenState extends State<DataScreen> {
 
     _streamController.sink.add(iotdata);
     setDate();
+    setState(() {});
   }
 
   //  var timeFormat = DateFormat("HH:mm")
@@ -100,170 +101,170 @@ class _DataScreenState extends State<DataScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: double.maxFinite,
-      width: double.maxFinite,
-      margin: const EdgeInsets.all(5),
-      child: Column(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedScreen = SelectedScreen.soil;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                          primary: const Color.fromARGB(255, 96, 47, 4)),
-                      child: const Text("Soil Moisture"),
-                    ),
-                  ),
-                  Container(width: 10),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedScreen = SelectedScreen.temperature;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color.fromARGB(255, 224, 74, 10),
-                      ),
-                      child: const Text("Temperature"),
-                    ),
-                  ),
-                ],
-              ),
-              const Divider(
-                color: Colors.blue,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedScreen = SelectedScreen.waterTank;
-                        });
-                      },
-                      child: const Text("Water Tank"),
-                    ),
-                  ),
-                  Container(width: 10),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedScreen = SelectedScreen.lighting;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color.fromARGB(255, 243, 190, 0),
-                      ),
-                      child: const Text("Lighting"),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Data Query Screen",
+          style: TextStyle(
+            fontSize: 16,
           ),
-          const Divider(
-            color: Colors.blue,
-          ),
-          Container(
-            height: 50,
-            width: double.maxFinite,
-            child: Card(
-              elevation: 5,
+        ),
+      ),
+      body: Container(
+        height: double.maxFinite,
+        width: double.maxFinite,
+        margin: const EdgeInsets.all(5),
+        child: ListView(
+          children: [
+            Container(
+              height: 50,
+              width: double.maxFinite,
+              child: Center(
+                child: ElevatedButton(
+                  child: const Text(
+                    "Select Date",
+                  ),
+                  onPressed: () {
+                    showDatePickerModel();
+                  },
+                ),
+              ),
+            ),
+            const Divider(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedScreen = SelectedScreen.soil;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 96, 47, 4)),
+                        child: const Text("Soil"),
+                      ),
+                    ),
+                    Container(width: 10),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedScreen = SelectedScreen.temperature;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color.fromARGB(255, 224, 74, 10),
+                        ),
+                        child: const Text("Temperature"),
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(
+                  color: Colors.blue,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedScreen = SelectedScreen.waterTank;
+                          });
+                        },
+                        child: const Text("Water Tank"),
+                      ),
+                    ),
+                    Container(width: 10),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedScreen = SelectedScreen.lighting;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color.fromARGB(255, 243, 190, 0),
+                        ),
+                        child: const Text("Lighting"),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const Divider(
+              color: Colors.blue,
+            ),
+            Container(
+              height: 50,
+              width: double.maxFinite,
               child: Center(
                 child: Column(
                   children: [
                     Text(
                       lastUpdateTime == null
                           ? "Loading"
-                          : "Last Date Updated: $lastUpdatedate",
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      lastUpdateTime == null
-                          ? "Loading"
-                          : "Last Time Updated: $lastUpdateTime",
+                          : "Showing Data For: ${formatter.format(_selectedDay!)}",
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-          Container(
-            child: StreamBuilder<ListOfData>(
+            // Container(
+            //   height: 50,
+            //   child: const Center(
+            //     child: Text(
+            //       "Heating System",
+            //       style: TextStyle(
+            //         color: Colors.deepOrange,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            StreamBuilder<ListOfData>(
               stream: _streamController.stream,
               builder: (context, snapdata) {
                 switch (snapdata.connectionState) {
                   case ConnectionState.waiting:
-                    return const Center(
+                    return Center(
                       child: CircularProgressIndicator(),
                     );
                   default:
                     if (snapdata.hasError) {
-                      return const Text("please wait ....");
+                      return Text("please wait ....");
                     } else {
                       List<IoTData> sensorData = snapdata.data!.data;
                       datastreams = sensorData;
                       print(sensorData);
-                      if (selectedScreen == SelectedScreen.soil) {
+                      if (sensorData.isEmpty) {
                         return Container(
-                          height: 650,
-                          child: ListView(
-                            children: [
-                              SoilScreen(data: sensorData),
-                              // TableWidget(sensorData),
-                            ],
+                          height: 50,
+                          width: double.maxFinite,
+                          child: const Text(
+                            "No Data from the selected Date",
                           ),
+                        );
+                      }
+                      if (selectedScreen == SelectedScreen.soil) {
+                        return SoilScreen(
+                          data: sensorData,
                         );
                       }
                       if (selectedScreen == SelectedScreen.temperature) {
-                        return Container(
-                          height: 650,
-                          child: ListView(
-                            children: [
-                              TemperatureScreen(sensorData),
-                              // TableWidget(sensorData),
-                            ],
-                          ),
-                        );
+                        return TemperatureScreen(sensorData);
                       }
                       if (selectedScreen == SelectedScreen.lighting) {
                         return LightScreen(data: sensorData);
-                        //  return Container(
-                        //   height: 650,
-                        //   child: ListView(
-                        //     children: [
-                        //        LightScreen(data: sensorData),
-                        //       // TableWidget(sensorData),
-                        //     // ],
-                        //   ),
-                        // );
-
                       }
                       if (selectedScreen == SelectedScreen.waterTank) {
-                        return Container(
-                          height: 650,
-                          child: ListView(
-                            children: [
-                              TankScreen(data: sensorData),
-                              // TableWidget(sensorData),
-                            ],
-                          ),
-                        );
+                        return TankScreen(data: sensorData);
                       } else {
                         return Container(
                           child: const Center(
@@ -277,15 +278,15 @@ class _DataScreenState extends State<DataScreen> {
                 }
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Container TemperatureScreen(List<IoTData> sensorData) {
     return Container(
-      height: 650,
+        height: 650,
       child: ListView(
         children: [
           SfCartesianChart(
@@ -315,10 +316,7 @@ class _DataScreenState extends State<DataScreen> {
               )
             ],
           ),
-          TablesScreen(
-            sensorData: sensorData,
-            screenName: "temperature",
-          ),
+           TablesScreen(sensorData:  sensorData, screenName: "temperature",),
         ],
       ),
     );

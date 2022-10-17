@@ -1,6 +1,7 @@
 import 'package:farm/cubits/data_cubit.dart';
 import 'package:farm/cubits/data_logic.dart';
 import 'package:farm/screens/led.dart';
+import 'package:farm/screens/querydata.dart';
 import 'package:farm/services/services.dart';
 import 'package:farm/widgets/waterTank.dart';
 import 'package:farm/widgets/welcomeWidget.dart';
@@ -70,25 +71,39 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             children: [
               Container(
-                height: size * 0.2,
+                height: size * 0.1,
                 color: Colors.blue,
                 child: Welcome(),
               ),
-              const Divider(),
               Container(
-                height: 150,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: Home(),
-                    ),
-                  ],
+                padding: const EdgeInsets.all(5),
+                height: 50,
+                child: ElevatedButton(
+                  child: const Text(
+                    "Query Data",
+                  ),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return QueryData();
+                    }));
+                  },
                 ),
               ),
-              
+              // const Divider(),
+              // Container(
+              //   height: 150,
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.end,
+              //     children: [
+              //       Expanded(
+              //         child: Home(),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
-                height: size * 0.6,
+                // height: 800,
                 child: BlocProvider(
                   create: (context) => DataCubit(dataService: DataService()),
                   child: DataLogicScreen(),

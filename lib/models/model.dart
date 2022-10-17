@@ -20,9 +20,9 @@ class IoTData {
     required this.dateCreated,
   });
 
-  int photocell;
-  int waterlevel;
-  int soilmoisture;
+  String photocell;
+  String waterlevel;
+  String soilmoisture;
   String temperature;
   String timeAdded;
   DateTime dateCreated;

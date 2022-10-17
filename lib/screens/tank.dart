@@ -1,21 +1,18 @@
-import 'dart:async';
-
 import 'package:farm/screens/tableScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:farm/models/model.dart';
 
-class LightScreen extends StatefulWidget {
+class TankScreen extends StatefulWidget {
   List<IoTData> data;
-
-  LightScreen({
+  TankScreen({
     required this.data,
   });
   @override
-  State<LightScreen> createState() => _LightScreenState();
+  State<TankScreen> createState() => _TankScreenState();
 }
 
-class _LightScreenState extends State<LightScreen> {
+class _TankScreenState extends State<TankScreen> {
   void printData() {
     print(widget.data);
   }
@@ -29,35 +26,41 @@ class _LightScreenState extends State<LightScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 650,
+      height: double.maxFinite,
+      width: double.maxFinite,
       child: ListView(
         children: [
           SfCartesianChart(
             // backgroundColor: Colors.deepOrange,
             title: ChartTitle(
               borderColor: Colors.blue,
-              text: "Light Intensity Recordings Against Time",
+              text: "Water Level Recordings Against Time",
               textStyle: const TextStyle(
                 fontSize: 12,
                 decoration: TextDecoration.underline,
                 decorationColor: Colors.blue,
               ),
             ),
-            primaryXAxis: CategoryAxis(isInversed: true),
-
             primaryYAxis: NumericAxis(
+              interval: 10,
               minimum: 0,
-              maximum: 600,
+              maximum: 100,
             ),
+            primaryXAxis: CategoryAxis(isInversed: true),
             series: <ChartSeries>[
               LineSeries<IoTData, String>(
                 dataSource: widget.data,
-                xValueMapper: (IoTData data, _) => data.timeAdded.substring(0, 5),
-                yValueMapper: (IoTData data, _) => double.parse(data.photocell),
+                xValueMapper: (IoTData data, _) =>
+                    data.timeAdded.substring(0, 5),
+                yValueMapper: (IoTData data, _) =>
+                    double.parse(data.waterlevel),
               )
             ],
           ),
-          TablesScreen(sensorData:  widget.data, screenName: "photocell",),
+          TablesScreen(
+            sensorData: widget.data,
+            screenName: "waterTank",
+          ),
         ],
       ),
     );

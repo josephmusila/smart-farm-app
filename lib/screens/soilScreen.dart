@@ -1,3 +1,4 @@
+import 'package:farm/screens/tableScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:farm/models/model.dart';
@@ -51,11 +52,13 @@ class _SoilScreenState extends State<SoilScreen> {
                   dataSource: widget.data,
                   xValueMapper: (IoTData data, _) =>
                       data.timeAdded.substring(0, 5),
-                  yValueMapper: (IoTData data, _) => data.soilmoisture,
+                  yValueMapper: (IoTData data, _) => double.parse(data.soilmoisture),
                 )
               ],
             ),
+             TablesScreen(sensorData:  widget.data, screenName: "soil",),
           ],
+          
         ),
       );
     
