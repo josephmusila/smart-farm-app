@@ -19,32 +19,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // List<SalesDetails> details = [];
 
-  // void loadSalesData() {
-  //   details = [
-  //     SalesDetails("Jan", 200),
-  //     SalesDetails("Feb", 150),
-  //     SalesDetails("Mar", 120),
-  //     SalesDetails("Apr", 160),
-  //     SalesDetails("May", 100)
-  //   ];
-  // }
 
-  // void loadSalesData() {
-  //   for (int i = 0; i < subjects.length; i++) {
-  //     details.add(SalesDetails(subjects[i], marks[i]));
-  //   }
-  // }
 
-  List<String> subjects = [
-    "maths",
-    "english",
-    "kiswahili",
-    "science",
-    "social"
-  ];
-  List<int> marks = [70, 75, 60, 80, 90];
 
   Future<String> getData() async {
     final url = Uri.parse("http://192.168.1.101:8000/api/listdata");
@@ -83,10 +60,10 @@ class _HomePageState extends State<HomePage> {
                     "Query Data",
                   ),
                   onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return QueryData();
-                    }));
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) {
+                    //   return QueryData();
+                    // }));
                   },
                 ),
               ),

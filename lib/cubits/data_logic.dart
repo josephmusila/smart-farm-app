@@ -18,11 +18,11 @@ class _DataLogicScreenState extends State<DataLogicScreen> {
   Timer? timer;
   @override
   void initState() {
-    timer = Timer.periodic(Duration(seconds: 60),
-        (Timer t) => BlocProvider.of<DataCubit>(context).getNotificatios());
-    setState(() {});
+    // timer = Timer.periodic(const Duration(seconds: 60),
+    //     (Timer t) => BlocProvider.of<DataCubit>(context).getNotificatios());
+    // setState(() {});
 
-    // BlocProvider.of<DataCubit>(context).getNotificatios();
+    BlocProvider.of<DataCubit>(context).getNotificatios();
 
     super.initState();
   }
@@ -36,23 +36,30 @@ class _DataLogicScreenState extends State<DataLogicScreen> {
   List<IoTData> myData = [];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: BlocBuilder<DataCubit, DataState>(builder: (context, state) {
-        if (state is DataLoadingState) {
-          // return const Center(child: CircularProgressIndicator());
-          //  setState(() {});
+    return Scaffold(
 
-          return DataScreen();
-        }
-        if (state is DataLoadedState) {
-          //  setState(() {});
+      body: SafeArea(
+        child: Container(
+          height: double.maxFinite,
+          width: double.maxFinite,
+          child: BlocBuilder<DataCubit, DataState>(builder: (context, state) {
+            if (state is DataLoadingState) {
+              // return const Center(child: CircularProgressIndicator());
+              return DataScreen();
+              //  setState(() {});
 
-          myData = state.data;
-          return DataScreen();
-        } else {
-          return Container();
-        }
-      }),
+            }
+            else if (state is DataLoadedState) {
+              //  setState(() {});
+
+              // myData = state.data;
+              return DataScreen();
+            } else {
+              return Container();
+            }
+          }),
+        ),
+      ),
     );
   }
 }

@@ -12,34 +12,34 @@ String ioTDataToJson(List<IoTData> data) =>
 
 class IoTData {
   IoTData({
-    required this.photocell,
-    required this.waterlevel,
-    required this.soilmoisture,
+    required this.voltage,
+    required this.dust,
+
     required this.temperature,
     required this.timeAdded,
     required this.dateCreated,
   });
 
-  String photocell;
-  String waterlevel;
-  String soilmoisture;
+  String voltage;
+  String dust;
+
   String temperature;
   String timeAdded;
   DateTime dateCreated;
 
   factory IoTData.fromJson(json) => IoTData(
-        photocell: json["photocell"],
-        waterlevel: json["waterlevel"],
-        soilmoisture: json["soilmoisture"],
+    voltage: json["voltage"],
+    dust: json["dust"],
+
         temperature: json["temperature"],
         timeAdded: json["time_added"],
         dateCreated: DateTime.parse(json["date_created"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "photocell": photocell,
-        "waterlevel": waterlevel,
-        "soilmoisture": soilmoisture,
+        "voltage": voltage,
+        "dust": dust,
+
         "temperature": temperature,
         "time_added": timeAdded,
         "date_created":

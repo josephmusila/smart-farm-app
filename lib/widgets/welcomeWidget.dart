@@ -9,7 +9,7 @@ class Welcome extends StatelessWidget {
         child: Container(
       child: const Center(
         child: Text(
-          "Farm 1 Data Panel",
+          "Panel 1 Data Panel",
           style: TextStyle(
             fontSize: 20,
             color: Colors.deepOrange,

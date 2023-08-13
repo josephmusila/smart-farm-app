@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:farm/models/model.dart';
 
+import '../models/SensorDataClass.dart';
+
 class TablesScreen extends StatelessWidget {
-  List<IoTData> sensorData;
+  List<SensorData> sensorData;
   String screenName;
   TablesScreen({
     required this.sensorData,
@@ -25,15 +27,15 @@ class TablesScreen extends StatelessWidget {
                 DataCell(
                   Text(e.dateCreated.toString().substring(0, 10)),
                 ),
-                DataCell(Text(e.timeAdded.toString().substring(0, 8))),
+                DataCell(Text(e.dateCreated.toString().substring(11, 16))),
                 DataCell(
-                  screenName == "temperature"
-                      ? Text("${e.temperature}C")
-                      : screenName == "waterTank"
-                          ? Text("${e.waterlevel}%")
-                          : screenName == "soil"
-                              ? Text(e.soilmoisture.toString())
-                              : Text(e.photocell.toString()),
+                  screenName == "voltage"
+                      ? Text("${e.value}C")
+                      : screenName == "dust"
+                          ? Text("${e.value}%")
+                          : screenName == "voltage"
+                              ? Text(e.value.toString())
+                              : Text(e.value.toString()),
                 ),
               ],
             ),

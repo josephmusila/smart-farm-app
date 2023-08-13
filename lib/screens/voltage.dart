@@ -1,21 +1,22 @@
 import 'dart:async';
 
+import 'package:farm/models/SensorDataClass.dart';
 import 'package:farm/screens/tableScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:farm/models/model.dart';
 
-class LightScreen extends StatefulWidget {
-  List<IoTData> data;
+class VoltageScreen extends StatefulWidget {
+  List<SensorData> data;
 
-  LightScreen({
+  VoltageScreen({
     required this.data,
   });
   @override
-  State<LightScreen> createState() => _LightScreenState();
+  State<VoltageScreen> createState() => _VoltageScreenState();
 }
 
-class _LightScreenState extends State<LightScreen> {
+class _VoltageScreenState extends State<VoltageScreen> {
   void printData() {
     print(widget.data);
   }
@@ -36,7 +37,7 @@ class _LightScreenState extends State<LightScreen> {
             // backgroundColor: Colors.deepOrange,
             title: ChartTitle(
               borderColor: Colors.blue,
-              text: "Light Intensity Recordings Against Time",
+              text: "Voltage Recordings Against Time",
               textStyle: const TextStyle(
                 fontSize: 12,
                 decoration: TextDecoration.underline,
@@ -50,14 +51,14 @@ class _LightScreenState extends State<LightScreen> {
               maximum: 600,
             ),
             series: <ChartSeries>[
-              LineSeries<IoTData, String>(
+              LineSeries<SensorData, String>(
                 dataSource: widget.data,
-                xValueMapper: (IoTData data, _) => data.timeAdded.substring(0, 5),
-                yValueMapper: (IoTData data, _) => double.parse(data.photocell),
+                xValueMapper: (SensorData data, _) => data.dateCreated.toString().substring(0, 5),
+                yValueMapper: (SensorData data, _) => double.parse(data.value),
               )
             ],
           ),
-          TablesScreen(sensorData:  widget.data, screenName: "photocell",),
+          // TablesScreen(sensorData:  widget.data, screenName: "voltage",),
         ],
       ),
     );

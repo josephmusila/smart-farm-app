@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:farm/models/model.dart';
 
-class SoilScreen extends StatefulWidget {
+class DustScreen extends StatefulWidget {
   List<IoTData> data;
-  SoilScreen({
+  DustScreen({
     required this.data,
   });
   @override
-  State<SoilScreen> createState() => _SoilScreenState();
+  State<DustScreen> createState() => _DustScreenState();
 }
 
-class _SoilScreenState extends State<SoilScreen> {
+class _DustScreenState extends State<DustScreen> {
   void printData() {
     print(widget.data);
   }
@@ -34,7 +34,7 @@ class _SoilScreenState extends State<SoilScreen> {
               // backgroundColor: Colors.deepOrange,
               title: ChartTitle(
                 borderColor: Colors.blue,
-                text: "Soil mositure Recordings Against Time",
+                text: "Dust Recordings Against Time",
                 textStyle: const TextStyle(
                   fontSize: 12,
                   decoration: TextDecoration.underline,
@@ -52,11 +52,11 @@ class _SoilScreenState extends State<SoilScreen> {
                   dataSource: widget.data,
                   xValueMapper: (IoTData data, _) =>
                       data.timeAdded.substring(0, 5),
-                  yValueMapper: (IoTData data, _) => double.parse(data.soilmoisture),
+                  yValueMapper: (IoTData data, _) => double.parse(data.dust),
                 )
               ],
             ),
-             TablesScreen(sensorData:  widget.data, screenName: "soil",),
+             // TablesScreen(sensorData:  widget.data, screenName: "dust",),
           ],
           
         ),

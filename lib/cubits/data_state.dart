@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:farm/models/model.dart';
 
+import '../models/solarData.dart';
+
 
 
 abstract class DataState extends Equatable {}
@@ -21,7 +23,7 @@ class NoDataState extends DataState {
 }
 
 class DataLoadedState extends DataState {
-  final List<IoTData> data;
+  final SolarData data;
   DataLoadedState({
     required this.data,
   });
